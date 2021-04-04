@@ -1,8 +1,8 @@
 {
-  "name": "cdksqs-lambda-standard-maxreceivecount-1",
+  "name": "cdksqs-lambda-standard",
   "version": "0.1.0",
   "bin": {
-    "cdksqs-lambda-standard": "bin/cdksqs-lambda-standard-mrc1.js"
+    "cdksqs-lambda-standard": "bin/cdksqs-lambda-standard.js"
   },
   "scripts": {
     "build": "tsc",

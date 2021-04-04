@@ -5,12 +5,12 @@ import * as lambda from "@aws-cdk/aws-lambda";
 import { SqsEventSource } from "@aws-cdk/aws-lambda-event-sources";
 import { PythonFunction } from "@aws-cdk/aws-lambda-python";
 
-export class CdksqsLambdaStandardMrc1BatchStack extends cdk.Stack {
+export class CdksqsLambdaStandardMixedStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
     const PREFIX_NAME = id.toLowerCase().replace("stack", "")
-    
+
     // notification for dead letter queue
     
     const notification_function = new PythonFunction(this, "notification_function", {
@@ -39,9 +39,9 @@ export class CdksqsLambdaStandardMrc1BatchStack extends cdk.Stack {
     const queue = new sqs.Queue(this, "queue", {
       queueName: PREFIX_NAME,
       retentionPeriod: cdk.Duration.minutes(10),
-      visibilityTimeout: cdk.Duration.seconds(15),
+      visibilityTimeout: cdk.Duration.seconds(110),
       deadLetterQueue: {
-        maxReceiveCount: 1, 
+        maxReceiveCount: 1,
         queue: dead_letter_queue,
       },
     });
@@ -68,6 +68,7 @@ export class CdksqsLambdaStandardMrc1BatchStack extends cdk.Stack {
       functionName: PREFIX_NAME,
       runtime: lambda.Runtime.PYTHON_3_8,
       timeout: cdk.Duration.seconds(2),
+      reservedConcurrentExecutions: 1,
       role: role,
       layers: [ layer ], // add Lambda Insight
       tracing: lambda.Tracing.ACTIVE // activate X-Ray

@@ -5,12 +5,12 @@ import * as lambda from "@aws-cdk/aws-lambda";
 import { SqsEventSource } from "@aws-cdk/aws-lambda-event-sources";
 import { PythonFunction } from "@aws-cdk/aws-lambda-python";
 
-export class CdksqsLambdaStandardMrc1MixedStack extends cdk.Stack {
+export class CdksqsLambdaStandardStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
     const PREFIX_NAME = id.toLowerCase().replace("stack", "")
-
+    
     // notification for dead letter queue
     
     const notification_function = new PythonFunction(this, "notification_function", {
@@ -39,9 +39,9 @@ export class CdksqsLambdaStandardMrc1MixedStack extends cdk.Stack {
     const queue = new sqs.Queue(this, "queue", {
       queueName: PREFIX_NAME,
       retentionPeriod: cdk.Duration.minutes(10),
-      visibilityTimeout: cdk.Duration.seconds(110),
+      visibilityTimeout: cdk.Duration.seconds(15),
       deadLetterQueue: {
-        maxReceiveCount: 1,
+        maxReceiveCount: 1, 
         queue: dead_letter_queue,
       },
     });
@@ -60,22 +60,21 @@ export class CdksqsLambdaStandardMrc1MixedStack extends cdk.Stack {
     const layer = lambda.LayerVersion.fromLayerVersionArn(this, "layer", 
       "arn:aws:lambda:ap-northeast-1:580247275435:layer:LambdaInsightsExtension:14"
     );
-
+    
     const lambda_function = new PythonFunction(this, "lambda_function", {
       entry: "lambda",
       index: "consumer.py",
       handler: "lambda_handler",
       functionName: PREFIX_NAME,
       runtime: lambda.Runtime.PYTHON_3_8,
-      timeout: cdk.Duration.seconds(2),
-      reservedConcurrentExecutions: 1,
+      timeout: cdk.Duration.seconds(12),
       role: role,
       layers: [ layer ], // add Lambda Insight
       tracing: lambda.Tracing.ACTIVE // activate X-Ray
     });
-
+    
     lambda_function.addEventSource(
-      new SqsEventSource(queue, { batchSize: 1 })
+      new SqsEventSource(queue)
     );
 
     queue.grantConsumeMessages(lambda_function);

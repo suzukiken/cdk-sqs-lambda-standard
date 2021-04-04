@@ -5,10 +5,10 @@ To send messages, do this at the root directory of this repository.
 python -m venv test/env
 source test/env/bin/activate
 pip3 install -r test/requirements.txt
-python test/send_message.py cdksqslambdastandardmrc1
-python test/send_message.py cdksqslambdastandardmrc1batch
-python test/send_message.py cdksqslambdastandardmrc1conc
-python test/send_message.py cdksqslambdastandardmrc1mixed
+python test/send_message.py cdksqslambdastandard
+python test/send_message.py cdksqslambdastandardbatch
+python test/send_message.py cdksqslambdastandardconc
+python test/send_message.py cdksqslambdastandardmixed
 ```
 
 Do this query with CloudWatch Logs Insight.
