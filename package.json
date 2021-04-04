@@ -1,8 +1,8 @@
 {
-  "name": "cdksqs-lambda-standard",
+  "name": "cdksqs-lambda-standard-maxreceivecount-1",
   "version": "0.1.0",
   "bin": {
-    "cdksqs-lambda-standard": "bin/cdksqs-lambda-standard.js"
+    "cdksqs-lambda-standard": "bin/cdksqs-lambda-standard-mrc1.js"
   },
   "scripts": {
     "build": "tsc",
@@ -14,13 +14,18 @@
     "@aws-cdk/assert": "1.96.0",
     "@types/jest": "^26.0.10",
     "@types/node": "10.17.27",
+    "aws-cdk": "1.96.0",
     "jest": "^26.4.2",
     "ts-jest": "^26.2.0",
-    "aws-cdk": "1.96.0",
     "ts-node": "^9.0.0",
     "typescript": "~3.9.7"
   },
   "dependencies": {
+    "@aws-cdk/aws-iam": "^1.96.0",
+    "@aws-cdk/aws-lambda": "^1.96.0",
+    "@aws-cdk/aws-lambda-event-sources": "^1.96.0",
+    "@aws-cdk/aws-lambda-python": "^1.96.0",
+    "@aws-cdk/aws-sqs": "^1.96.0",
     "@aws-cdk/core": "1.96.0",
     "source-map-support": "^0.5.16"
   }
