@@ -41,7 +41,7 @@ export class CdksqsLambdaStandardBatchStack extends cdk.Stack {
       retentionPeriod: cdk.Duration.minutes(10),
       visibilityTimeout: cdk.Duration.seconds(15),
       deadLetterQueue: {
-        maxReceiveCount: 5, 
+        maxReceiveCount: 1, 
         queue: dead_letter_queue,
       },
     });

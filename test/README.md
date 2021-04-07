@@ -7,7 +7,9 @@ source test/env/bin/activate
 pip3 install -r test/requirements.txt
 python test/send_message.py cdksqslambdastandard
 python test/send_message.py cdksqslambdastandardbatch
+python test/send_message.py cdksqslambdastandardbatch5
 python test/send_message.py cdksqslambdastandardconc
+python test/send_message.py cdksqslambdastandardconc5
 python test/send_message.py cdksqslambdastandardmixed
 ```
 

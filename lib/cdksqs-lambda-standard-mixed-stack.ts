@@ -41,7 +41,7 @@ export class CdksqsLambdaStandardMixedStack extends cdk.Stack {
       retentionPeriod: cdk.Duration.minutes(10),
       visibilityTimeout: cdk.Duration.seconds(110),
       deadLetterQueue: {
-        maxReceiveCount: 5,
+        maxReceiveCount: 1,
         queue: dead_letter_queue,
       },
     });
