@@ -7,13 +7,12 @@ source test/env/bin/activate
 pip3 install -r test/requirements.txt
 python test/send_message.py cdksqslambdastandard
 python test/send_message.py cdksqslambdastandardbatch
-python test/send_message.py cdksqslambdastandardbatch5
 python test/send_message.py cdksqslambdastandardconc
-python test/send_message.py cdksqslambdastandardconc5
 python test/send_message.py cdksqslambdastandardmixed
 ```
 
-Do this query with CloudWatch Logs Insight.
+
+Count consumed and rejected messages in CloudWatch Logs Insight.
 
 ```
 filter @message like /action:[a-z]+:queue:[a-z0-9]+:sendgroup:[-0-9T:]+ - /
@@ -21,4 +20,12 @@ filter @message like /action:[a-z]+:queue:[a-z0-9]+:sendgroup:[-0-9T:]+ - /
 | stats count(*) as cnt by queue, action, sendgroup
 | display cnt, queue, action, sendgroup
 | sort sendgroup desc
+```
+
+Show specific batch processing duration in CloudWatch Logs Insight.
+
+```
+filter @message like /action:consumed:queue:[a-z0-9]+:sendgroup:20210404130632/
+| (latest(@timestamp) - earliest(@timestamp)) / 1000 as duration
+| display duration
 ```
